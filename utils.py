@@ -11,7 +11,39 @@ positions = [
     {"x": 960, "y": 770},
 ]
 
-
+def calcAccountsCoords(accounts):
+    team1 = []
+    team2 = []
+    for i, account in enumerate(accounts):
+        #x1/y1 => starts from top left
+        #x2/y2 => starts from bottom right
+        x1 = positions[i]["x"]
+        y1 = positions[i]["y"]
+        x2 = x1 + 320
+        y2 = y1 + 230
+        if i <= 4:
+            team1.append({
+                "username": account["username"],
+                "password": account["password"],
+                "coords":{
+                    "x1": x1,
+                    "y1": y1,
+                    "x2": x2,
+                    "y2": y2,
+                }
+            })
+        else:
+            team2.append({
+                "username": account["username"],
+                "password": account["password"],
+                "coords":{
+                    "x1": x1,
+                    "y1": y1,
+                    "x2": x2,
+                    "y2": y2,
+                }
+            })
+    return {"team1": team1, "team2": team2}
 
 def parseAccounts():
     with open('accounts.txt', 'r') as r:
