@@ -1,5 +1,5 @@
-from elevate import elevate
-elevate()
+# from elevate import elevate
+# elevate()
 import sys
 import subprocess
 import utils
@@ -12,8 +12,10 @@ import clipboard
 from python_imagesearch.imagesearch import imagesearch_count
 pyautogui.PAUSE = 0.3
 
-#to capture these coordinates you just need to start an instance of csgo with -x 0 and -y 0 parameters
-#then use something to capture the coordinates, in this case i just used pyautogui.position() on a while true loop
+"""
+These are [x,y] coordinates based on a 640x480 csgo window fixed on x=0, y=0
+To capture just use print(pyautogui.position()) on a While True
+"""
 c_open_sidebar = [308,58]
 c_open_invite = [249,70]
 c_input_field = [140,110]
@@ -30,13 +32,11 @@ c_accept_match = [159,131]
 c_reconnect_btn = [254,12]
 c_screen_center = [160, 115]
 c_mm_btn = [36, 40]
+
 g_start_delay = 130
 g_reconnect_delay = 16
 g_disconnect_delay = 36
 g_status = ''
-
-def restart_program():
-    os.execv(__file__, sys.argv)
 
 g_team1 = []
 g_team2 = []        
@@ -60,12 +60,6 @@ def openAllAccounts():
             steamdir = utils.parseSteamDir()
             args = utils.parseSteamArgs(account["username"], account["password"], x, y)
             subprocess.Popen(steamdir + args, close_fds=True)
-    return
-
-def openSingleAccount(account):
-    steamdir = utils.parseSteamDir()
-    args = utils.parseSteamArgs(account["username"],account["password"])
-    proc = subprocess.Popen(steamdir + args, close_fds=True)
     return
 
 def openInviteMenu(account):
@@ -209,30 +203,31 @@ def startSearch(queue):
     return
 
 def clickSearchBtn():
-    pyautogui.click(g_team1[0]["coords"]["x1"] + c_open_search[0], g_team1[0]["coords"]["y1"] + c_open_search[1])
+    utils.mouse(g_team1[0], c_open_search, 'click')
     time.sleep(0.3)
-    pyautogui.click(g_team1[0]["coords"]["x1"] + c_mm_btn[0], g_team1[0]["coords"]["y1"] + c_mm_btn[1])
-    pyautogui.moveTo(g_team2[0]["coords"]["x1"] + c_open_search[0], g_team2[0]["coords"]["y1"] + c_open_search[1])
+    utils.mouse(g_team1[0], c_mm_btn, 'click')
+    utils.mouse(g_team2[0], c_open_search, 'move')
     time.sleep(0.2)
-    pyautogui.click(g_team2[0]["coords"]["x1"] + c_open_search[0], g_team2[0]["coords"]["y1"] + c_open_search[1])
+    utils.mouse(g_team2[0], c_open_search, 'click')
 
     time.sleep(0.2)
 
-    pyautogui.click(g_team1[0]["coords"]["x1"] + c_start_search[0], g_team1[0]["coords"]["y1"] + c_start_search[1])
+    utils.mouse(g_team1[0], c_start_search, 'click')
     time.sleep(0.3)
-    pyautogui.click(g_team1[0]["coords"]["x1"] + c_mm_btn[0], g_team1[0]["coords"]["y1"] + c_mm_btn[1])
-    pyautogui.moveTo(g_team2[0]["coords"]["x1"] + c_start_search[0], g_team2[0]["coords"]["y1"] + c_start_search[1])
+    utils.mouse(g_team1[0], c_mm_btn, 'click')
+    utils.mouse(g_team2[0], c_start_search, 'move')
     time.sleep(0.2)
-    pyautogui.click(g_team2[0]["coords"]["x1"] + c_start_search[0], g_team2[0]["coords"]["y1"] + c_start_search[1])
+    utils.mouse(g_team2[0], c_start_search, 'click')
     return
 
 def loadAccounts():
     accounts = utils.parseAccounts()
     global g_team1
     global g_team2
-    g_team1 = utils.calcAccountsCoords(accounts)["team1"]
-    g_team2 = utils.calcAccountsCoords(accounts)["team2"]
-    printStatus()
+    if accounts:
+        g_team1 = utils.calcAccountsCoords(accounts)["team1"]
+        g_team2 = utils.calcAccountsCoords(accounts)["team2"]
+        printStatus()
     return
 
 def printStatus():
@@ -248,20 +243,18 @@ def printStatus():
 
 
 def main():
-    
+    loadAccounts()
     keyboard.add_hotkey('f3', startInvites)
     keyboard.add_hotkey('f4', openAllAccounts)
     keyboard.add_hotkey('f5', loadAccounts)
     keyboard.add_hotkey('f6', startMM)
     keyboard.add_hotkey('f7', clickSearchBtn)
     keyboard.add_hotkey('f8', closeAllAccounts)
-    keyboard.add_hotkey('f9', restart_program)
+    keyboard.add_hotkey('f9', print)
     while True:
-        time.sleep(5)
+        time.sleep(2)
         printStatus()
         #print(pyautogui.position())
-        #count = imagesearch_count('./pics/Accept.png')
-        #print(count)
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,7 @@
 from colorclass import Color, Windows
 from terminaltables import SingleTable
+import pyautogui
+pyautogui.PAUSE = 0.3
 import psutil
 Windows.enable(auto_colors=True, reset_atexit=True)
 
@@ -52,31 +54,36 @@ def calcAccountsCoords(accounts):
 
 def parseAccounts():
     accounts = []
-    with open('team1.txt', 'r') as r:
-        for line in r:
-            parsedLine = line.rstrip().split(':')
-            if parsedLine:
-                newAcc = {
-                    "username": parsedLine[0],
-                    "password": parsedLine[1]
-                }
-                accounts.append(newAcc)
-                
-        if(len(accounts)) < 5:
-            print("Missing accounts on team1.txt, only found " + str(len(accounts)))
-            sys.exit()
-    with open('team2.txt', 'r') as r:
-        for line in r:
-            parsedLine = line.rstrip().split(':')
-            if parsedLine:
-                newAcc = {
-                    "username": parsedLine[0],
-                    "password": parsedLine[1]
-                }
-                accounts.append(newAcc)
-        if(len(accounts)) < 5:
-            print("Missing accounts on team2.txt, only found " + str(len(accounts)))
-            sys.exit()
+    try:
+        with open('team1.txt', 'r') as r:
+            for line in r:
+                parsedLine = line.rstrip().split(':')
+                if parsedLine:
+                    newAcc = {
+                        "username": parsedLine[0],
+                        "password": parsedLine[1]
+                    }
+                    print(newAcc)
+                    accounts.append(newAcc)
+            if(len(accounts)) < 5:
+                return
+    except FileNotFoundError:
+        print(Color('{autored}[ERROR]{/autored} {autogreen}team1.txt not found!{/autogreen}'))
+    
+    try:
+        with open('team2.txt', 'r') as r:
+            for line in r:
+                parsedLine = line.rstrip().split(':')
+                if parsedLine:
+                    newAcc = {
+                        "username": parsedLine[0],
+                        "password": parsedLine[1]
+                    }
+                    accounts.append(newAcc)
+            if(len(accounts)) < 10:
+                return
+    except FileNotFoundError:
+        print(Color('{autored}[ERROR]{/autored} {autogreen}team2.txt not found!{/autogreen}'))
     return accounts
 
 def parseSteamDir():
@@ -90,13 +97,13 @@ def parseSteamArgs(username, password, x=0, y=0):
 
 def table_keybinds():
     table_data = [
-        [Color('{autogreen}F3{/autogreen}'), 'Invite all accounts'],
-        [Color('{autogreen}F4{/autogreen}'), 'Open all accounts'],
-        [Color('{autogreen}F5{/autogreen}'), 'Load or Refresh accounts'],
-        [Color('{autogreen}F6{/autogreen}'), 'Start MM Search'],
-        [Color('{autogreen}F7{/autogreen}'), 'Start Wingman Search'],
+        [Color('{autoyellow}F3{/autoyellow}'), 'Invite all accounts'],
+        [Color('{autoyellow}F4{/autoyellow}'), 'Open all accounts'],
+        [Color('{autoyellow}F5{/autoyellow}'), 'Load or Refresh accounts'],
+        [Color('{autogreen}F6{/autogreen}'), 'Start MM Search (15x0)'],
+        [Color('{autogreen}F7{/autogreen}'), 'Start MM Search (15x15)'],
         [Color('{autogreen}F8{/autogreen}'), 'Close all accounts'],
-        [Color('{autogreen}F9{/autogreen}'), 'Panic button'],
+        [Color('{autored}F9{/autored}'), 'Panic button #todo'],
         ['\033[31m{}\033[0m'.format(psutil.cpu_percent()), 'CPU Usage'],
         ['\033[31m{}\033[0m'.format(psutil.virtual_memory().percent), 'RAM Usage'],
     ]
@@ -132,9 +139,7 @@ def mouse(account, target, _type, clicks=1):
     x1 = account["coords"]["x1"] + target[0]
     y1 = account["coords"]["y1"] + target[1]
     if _type == 'click':
-        
-        return
+        pyautogui.click(x1, y1, clicks)
     elif _type == 'move':
-
-        return
-    
+        pyautogui.moveTo(x1, y1)
+    return
