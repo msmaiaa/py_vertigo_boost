@@ -1,6 +1,6 @@
 create a file called accounts.txt
 the file should be in this format:
-
+LOGOFF FROM STEAM ACCOUNT BEFORE OPENING THE ACCOUNTS
 //
 
 acc:pass

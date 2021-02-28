@@ -1,3 +1,8 @@
+from colorclass import Color, Windows
+from terminaltables import SingleTable
+import psutil
+Windows.enable(auto_colors=True, reset_atexit=True)
+
 positions = [
     {"x": 0, "y": 0},
     {"x": 0, "y": 510},
@@ -46,20 +51,33 @@ def calcAccountsCoords(accounts):
     return {"team1": team1, "team2": team2}
 
 def parseAccounts():
-    with open('accounts.txt', 'r') as r:
-        accounts = []
+    accounts = []
+    with open('team1.txt', 'r') as r:
         for line in r:
             parsedLine = line.rstrip().split(':')
-            newAcc = {
-                "username": parsedLine[0],
-                "password": parsedLine[1]
-            }
-            accounts.append(newAcc)
-        if(len(accounts)) < 10:
-            print("Missing accounts on accounts.txt, only found " + str(len(accounts)))
+            if parsedLine:
+                newAcc = {
+                    "username": parsedLine[0],
+                    "password": parsedLine[1]
+                }
+                accounts.append(newAcc)
+                
+        if(len(accounts)) < 5:
+            print("Missing accounts on team1.txt, only found " + str(len(accounts)))
             sys.exit()
-        else:
-            return accounts
+    with open('team2.txt', 'r') as r:
+        for line in r:
+            parsedLine = line.rstrip().split(':')
+            if parsedLine:
+                newAcc = {
+                    "username": parsedLine[0],
+                    "password": parsedLine[1]
+                }
+                accounts.append(newAcc)
+        if(len(accounts)) < 5:
+            print("Missing accounts on team2.txt, only found " + str(len(accounts)))
+            sys.exit()
+    return accounts
 
 def parseSteamDir():
     line = open('steam_directory.txt', 'r')
@@ -69,3 +87,54 @@ def parseSteamDir():
 def parseSteamArgs(username, password, x=0, y=0):
     str = " -noverifyfiles -nochatui -no-browser -silent -login {} {} -applaunch 730 -x {} -y {} -sw -w 640 -h 480 +fps_max 30  +fps_max_menu 29 -nosound -novid -nojoy -noshader -nofbo -nodcaudio -nomsaa +set vid level 0 +sethdmodels 0 +log off +noshaderapi +lv -16bpp -low -threads 1 -noborder -nohltv -low +exec boost".format(username, password, x, y)
     return str
+
+def table_keybinds():
+    table_data = [
+        [Color('{autogreen}F3{/autogreen}'), 'Invite all accounts'],
+        [Color('{autogreen}F4{/autogreen}'), 'Open all accounts'],
+        [Color('{autogreen}F5{/autogreen}'), 'Load or Refresh accounts'],
+        [Color('{autogreen}F6{/autogreen}'), 'Start MM Search'],
+        [Color('{autogreen}F7{/autogreen}'), 'Start Wingman Search'],
+        [Color('{autogreen}F8{/autogreen}'), 'Close all accounts'],
+        [Color('{autogreen}F9{/autogreen}'), 'Panic button'],
+        ['\033[31m{}\033[0m'.format(psutil.cpu_percent()), 'CPU Usage'],
+        ['\033[31m{}\033[0m'.format(psutil.virtual_memory().percent), 'RAM Usage'],
+    ]
+    table_instance = SingleTable(table_data)
+    table_instance.inner_heading_row_border = False
+    print(table_instance.table)
+    return
+
+def table_accounts(team1, team2):
+    table_data = []
+
+    for i in range(len(team1)):
+        passw = '*' *  len(team1[i]["password"])
+        table_data.append(
+            [team1[i]["username"],  passw]
+        )
+    t1_table = SingleTable(table_data, 'Team 1')
+    t1_table.inner_heading_row_border = False
+    print(t1_table.table)
+
+    table_data.clear()
+    for i in range(len(team2)):
+        passw = '*' * len(team2[i]["password"])
+        table_data.append(
+            [team2[i]["username"],  passw]
+        )
+    t2_table = SingleTable(table_data, 'Team 2')
+    t2_table.inner_heading_row_border = False
+    print(t2_table.table)
+    return
+
+def mouse(account, target, _type, clicks=1):
+    x1 = account["coords"]["x1"] + target[0]
+    y1 = account["coords"]["y1"] + target[1]
+    if _type == 'click':
+        
+        return
+    elif _type == 'move':
+
+        return
+    

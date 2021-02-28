@@ -1,7 +1,10 @@
 accounts.txt
+team1.txt
+team2.txt
+config.txt
 __pycache__
 .vscode/*
-!.vscode/settings.json
+.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
