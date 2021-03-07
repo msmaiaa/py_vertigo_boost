@@ -1,7 +1,9 @@
 from colorclass import Color, Windows
 from terminaltables import SingleTable
+import colorclass
 import psutil
 import pyautogui
+from datetime import datetime
 pyautogui.PAUSE = 0.3
 Windows.enable(auto_colors=True, reset_atexit=True)
 
@@ -113,34 +115,22 @@ def parseAccounts():
 def parseWMAccounts():
     accounts = []
     try:
-        with open('wingman1.txt', 'r') as r:
-            for line in r:
+        with open('wingman.txt', 'r') as r:
+            for i, line in enumerate(r):
                 parsedLine = line.rstrip().split(':')
                 if parsedLine:
                     newAcc = {
                         "username": parsedLine[0],
                         "password": parsedLine[1]
                     }
-                    accounts.append(newAcc)
+                    if i > 1:
+                        accounts.append(newAcc)
+                    else:
+                        accounts.append(newAcc)
             if(len(accounts)) < 2:
                 return
     except FileNotFoundError:
-        print(Color('{autored}[ERROR]{/autored} {autogreen}wingman1.txt not found!{/autogreen}'))
-
-    try:
-        with open('wingman2.txt', 'r') as r:
-            for line in r:
-                parsedLine = line.rstrip().split(':')
-                if parsedLine:
-                    newAcc = {
-                        "username": parsedLine[0],
-                        "password": parsedLine[1]
-                    }
-                    accounts.append(newAcc)
-            if(len(accounts)) < 2:
-                return
-    except FileNotFoundError:
-        print(Color('{autored}[ERROR]{/autored} {autogreen}wingman2.txt not found!{/autogreen}'))
+        print(Color('{autored}[ERROR]{/autored} {autogreen}wingman.txt not found!{/autogreen}'))
     return accounts
 
 def parseSteamDir():
@@ -162,6 +152,8 @@ def table_keybinds():
         [Color('{autogreen}F8{/autogreen}'), 'Close all accounts'],
         [Color('{autored}F9{/autored}'), 'Invite Wingman Accounts'],
         [Color('{autored}F10{/autored}'), 'Open Wingman Accounts'],
+        [Color('{autored}F11{/autored}'), 'Run Wingman 8x8 forever'],
+        [Color('{autored}F12{/autored}'), 'Stop everything'],
         ['\033[31m{}\033[0m'.format(psutil.cpu_percent()), 'CPU Usage'],
         ['\033[31m{}\033[0m'.format(psutil.virtual_memory().percent), 'RAM Usage'],
     ]
@@ -208,3 +200,58 @@ def mouse(account = '', target = [0,0], _type='', clicks=1):
     elif _type == 'move':
         pyautogui.moveTo(x1, y1)
     return
+
+logMsgs = [
+    {"name": "botStart", "content": "Bot has started", "color": "magenta"},
+    {"name": "notLoaded", "content": "{} accounts not loaded!", "color": "yellow"},
+    {"name": "loaded", "content": "{} accounts are loaded!", "color": "cyan"},
+    {"name": "searchingMatch", "content": "Searching for a {} match", "color": "cyan"},
+    {"name": "foundHalf", "content": "Found a match only on 1 team", "color": "yellow"},
+    {"name": "foundAll", "content": "Found a match on both teams!", "color": "green"},
+    {"name": "finishedPlaying", "content": "Finished playing a match :)", "color": "cyan"},
+    {"name": "startingMatch", "content": "Starting match", "color": "green"},
+    {"name": "playingMatch", "content": "Playing match", "color": "green"},
+    {"name": "acceptingInvites", "content": "Accepting team {} invites", "color": "cyan"},
+    {"name": "inviting", "content": "Inviting team {}", "color": "cyan"},
+    {"name": "openAll", "content": "Opening all accounts", "color": "cyan"},
+    {"name": "disconnectedAccounts", "content": "Disconnected accounts from match, rejoining in {} seconds", "color": "green"},
+    {"name": "loadingAccounts", "content": "Loading accounts", "color": "cyan"},
+]
+
+def buildLogMsg(msgName, date, data='', raw=False):
+    dateNow = date.strftime("%d/%m/%Y-%H:%M:%S: ")
+    msg = ''
+    
+
+    for m in logMsgs:
+        if m["name"] == msgName:
+            if raw:
+                msg += dateNow
+                msg += m["content"].format(data)
+                return msg
+            color = m["color"]
+            content = Color('{%s}%s{/%s}' % (color, m["content"], color))
+            msg += Color('{%s}%s{/%s}' % ('white', dateNow, 'white'))
+            if data:
+                msg += content.format(data)
+            else:
+                msg += content
+    return msg
+
+
+def logger(msgName, data=False):
+    fullMsg = ''
+    rawMsg = buildLogMsg(msgName, datetime.now(), '', True)
+    if data:
+        fullMsg = buildLogMsg(msgName, datetime.now(), data)
+    else:
+        fullMsg = buildLogMsg(msgName, datetime.now())
+    with open('logs.txt', 'a') as l:
+        l.write(rawMsg + '\n')
+    print(fullMsg)
+    return
+    
+
+if __name__ == '__main__':
+    for m in logMsgs:
+        logger(m["name"], 1)

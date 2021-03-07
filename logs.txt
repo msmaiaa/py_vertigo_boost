@@ -1,0 +1,136 @@
+07/03/2021-12:10:10: Bot has started
+07/03/2021-12:10:10:  accounts not loaded!
+07/03/2021-12:10:10:  accounts are loaded!
+07/03/2021-12:10:10: Searching for a  match
+07/03/2021-12:10:10: Found a match only on 1 team
+07/03/2021-12:10:10: Found a match on both teams!
+07/03/2021-12:10:10: Finished playing a match :)
+07/03/2021-12:10:10: Starting match
+07/03/2021-12:10:10: Playing match
+07/03/2021-12:10:10: Accepting team  invites
+07/03/2021-12:10:10: Inviting team 
+07/03/2021-12:10:10: Opening all accounts
+07/03/2021-12:10:10: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:10:10: Loading accounts
+07/03/2021-12:10:24: Bot has started
+07/03/2021-12:10:24: Loading accounts
+07/03/2021-12:10:24:  accounts are loaded!
+07/03/2021-12:10:24:  accounts are loaded!
+07/03/2021-12:10:39: Bot has started
+07/03/2021-12:10:39: Loading accounts
+07/03/2021-12:10:39:  accounts are loaded!
+07/03/2021-12:10:39:  accounts are loaded!
+07/03/2021-12:10:56: Opening all accounts
+07/03/2021-12:12:20: Bot has started
+07/03/2021-12:12:20: Loading accounts
+07/03/2021-12:12:20:  accounts are loaded!
+07/03/2021-12:12:20:  accounts are loaded!
+07/03/2021-12:12:42: Opening all accounts
+07/03/2021-12:13:50: Inviting team 
+07/03/2021-12:13:57: Inviting team 
+07/03/2021-12:14:14: Accepting team  invites
+07/03/2021-12:14:15: Accepting team  invites
+07/03/2021-12:17:00: Searching for a  match
+07/03/2021-12:17:04: Searching for a  match
+07/03/2021-12:18:11: Found a match on both teams!
+07/03/2021-12:18:13: Starting match
+07/03/2021-12:20:24: Playing match
+07/03/2021-12:20:26: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:21:26: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:22:26: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:23:26: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:25:13: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:26:13: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:27:13: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:28:13: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:29:13: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:29:26: Finished playing a match :)
+07/03/2021-12:34:30: Inviting team 
+07/03/2021-12:34:54: Bot has started
+07/03/2021-12:34:54: Loading accounts
+07/03/2021-12:34:54:  accounts are loaded!
+07/03/2021-12:34:54:  accounts are loaded!
+07/03/2021-12:36:08: Bot has started
+07/03/2021-12:36:08: Loading accounts
+07/03/2021-12:36:08:  accounts are loaded!
+07/03/2021-12:36:08:  accounts are loaded!
+07/03/2021-12:36:19: Opening all accounts
+07/03/2021-12:37:52: Inviting team 
+07/03/2021-12:37:58: Inviting team 
+07/03/2021-12:38:15: Accepting team  invites
+07/03/2021-12:38:16: Accepting team  invites
+07/03/2021-12:39:03: Searching for a  match
+07/03/2021-12:39:07: Searching for a  match
+07/03/2021-12:40:18: Found a match on both teams!
+07/03/2021-12:40:21: Starting match
+07/03/2021-12:42:32: Playing match
+07/03/2021-12:42:34: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:43:34: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:44:34: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:45:34: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:47:21: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:48:21: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:49:21: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:50:21: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:51:21: Disconnected accounts from match, rejoining in  seconds
+07/03/2021-12:51:34: Finished playing a match :)
+07/03/2021-13:18:09: Bot has started
+07/03/2021-13:18:09: Loading accounts
+07/03/2021-13:18:09:  accounts are loaded!
+07/03/2021-13:18:09:  accounts are loaded!
+07/03/2021-13:21:06: Bot has started
+07/03/2021-13:21:06: Loading accounts
+07/03/2021-13:21:06:  accounts are loaded!
+07/03/2021-13:21:06:  accounts are loaded!
+07/03/2021-13:22:50: Bot has started
+07/03/2021-13:22:50: Loading accounts
+07/03/2021-13:22:50:  accounts are loaded!
+07/03/2021-13:22:50:  accounts are loaded!
+07/03/2021-13:23:26: Bot has started
+07/03/2021-13:23:26: Loading accounts
+07/03/2021-13:23:26:  accounts are loaded!
+07/03/2021-13:23:26:  accounts are loaded!
+07/03/2021-13:23:39: Bot has started
+07/03/2021-13:23:39: Loading accounts
+07/03/2021-13:23:39:  accounts are loaded!
+07/03/2021-13:23:39:  accounts are loaded!
+07/03/2021-13:24:31: Bot has started
+07/03/2021-13:24:31: Loading accounts
+07/03/2021-13:24:31:  accounts are loaded!
+07/03/2021-13:24:31:  accounts are loaded!
+07/03/2021-13:24:55: Bot has started
+07/03/2021-13:24:55: Loading accounts
+07/03/2021-13:24:55:  accounts are loaded!
+07/03/2021-13:24:55:  accounts are loaded!
+07/03/2021-13:25:20: Bot has started
+07/03/2021-13:25:20: Loading accounts
+07/03/2021-13:25:20:  accounts are loaded!
+07/03/2021-13:25:20:  accounts are loaded!
+07/03/2021-13:26:28: Bot has started
+07/03/2021-13:26:28: Loading accounts
+07/03/2021-13:26:28:  accounts are loaded!
+07/03/2021-13:26:28:  accounts are loaded!
+07/03/2021-13:27:06: Bot has started
+07/03/2021-13:27:06: Loading accounts
+07/03/2021-13:27:06:  accounts are loaded!
+07/03/2021-13:27:06:  accounts are loaded!
+07/03/2021-13:27:51: Bot has started
+07/03/2021-13:27:51: Loading accounts
+07/03/2021-13:27:51:  accounts are loaded!
+07/03/2021-13:27:51:  accounts are loaded!
+07/03/2021-13:28:27: Bot has started
+07/03/2021-13:28:27: Loading accounts
+07/03/2021-13:28:27:  accounts are loaded!
+07/03/2021-13:28:27:  accounts are loaded!
+07/03/2021-13:28:35: Bot has started
+07/03/2021-13:28:35: Loading accounts
+07/03/2021-13:28:35:  accounts are loaded!
+07/03/2021-13:28:35:  accounts are loaded!
+07/03/2021-13:30:07: Bot has started
+07/03/2021-13:30:07: Loading accounts
+07/03/2021-13:30:07:  accounts are loaded!
+07/03/2021-13:30:07:  accounts are loaded!
+07/03/2021-13:31:04: Bot has started
+07/03/2021-13:31:04: Loading accounts
+07/03/2021-13:31:04:  accounts are loaded!
+07/03/2021-13:31:04:  accounts are loaded!

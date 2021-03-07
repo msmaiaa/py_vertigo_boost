@@ -1,8 +1,7 @@
 accounts.txt
 team1.txt
 team2.txt
-wingman1.txt
-wingman2.txt
+wingman.txt
 config.txt
 __pycache__
 .vscode/*

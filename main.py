@@ -8,6 +8,7 @@ import os
 import psutil
 import keyboard 
 import pyautogui
+import threading
 import clipboard
 from python_imagesearch.imagesearch import imagesearch_count
 pyautogui.PAUSE = 0.3
@@ -57,6 +58,7 @@ def closeAllAccounts():
 
 def openAllAccounts(_type=''):
     closeAllAccounts()
+    utils.logger('openAll')
     team1 = g_team1
     team2 = g_team2
     if _type == 'wm':
@@ -82,7 +84,7 @@ def openInviteMenu(account):
     time.sleep(0.2)
     return
 
-def sendAndInvite(receiver, sender):
+def inviteWithCode(receiver, sender):
     r_x1 = receiver["coords"]["x1"]
     r_y1 = receiver["coords"]["y1"]
     s_x1 = sender["coords"]["x1"]
@@ -114,17 +116,17 @@ def sendAndInvite(receiver, sender):
     return
     
 
-def inviteWithCode(receiver, sender):
+def invite(receiver, sender):
     #sender = guy who will invite the rest of the accounts
     #receiver = account who will receive the invite
     openInviteMenu(sender)
-    sendAndInvite(receiver, sender)
+    inviteWithCode(receiver, sender)
     return
 
 def inviteSingleTeam(team):
     for i, account in enumerate(team):
         if i != 0:
-            inviteWithCode(account, team[0])
+            invite(account, team[0])
     return
 
 def inviteTeams(_type):
@@ -134,28 +136,31 @@ def inviteTeams(_type):
         team1 = g_wm_team1
         team2 = g_wm_team2
 
+    utils.logger('inviting', '1')
     for i, account in enumerate(team1):
         if i != 0:
-            inviteWithCode(account, team1[0])
+            invite(account, team1[0])
+    utils.logger('inviting', '2')
     for i, account in enumerate(team2):
         if i != 0:
-            inviteWithCode(account, team2[0])
+            invite(account, team2[0])
     return 
 
 def acceptInvites(_type):
     team1 = g_team1
     team2 = g_team2
     enter_coord = c_enter_party
-    print(_type)
     if _type == 'wm':
         team1 = g_wm_team1
         team2 = g_wm_team2
         enter_coord = c_enter_party_wm
+    utils.logger('acceptingInvites', '1')
     for i, account in enumerate(team1):
         if i > 0:
             utils.mouse(account, c_enter_party, 'move')
             time.sleep(0.3)
             utils.mouse(account, enter_coord, 'click', 2)
+    utils.logger('acceptingInvites', '2')
     for i, account in enumerate(team2):
         if i > 0:
             utils.mouse(account, c_enter_party, 'move')
@@ -172,10 +177,10 @@ def startInvites(_type):
 
 def startIngameBoost(_type):
     global g_status
-    g_status = 'Starting Match'
+    utils.logger('startingMatch')
     utils.mouse(account = g_wm_team2[0], _type='outside')
     time.sleep(g_start_delay)
-    g_status = 'Playing Match'
+    utils.logger('playingMatch')
 
     team1 = g_team1
     team2 = g_team2
@@ -201,6 +206,7 @@ def startIngameBoost(_type):
                 time.sleep(0.5)
 
             if i != 4:
+                utils.logger('disconnectedAccounts', str(g_reconnect_delay))
                 time.sleep(g_reconnect_delay)
 
             if i != 9:
@@ -223,13 +229,12 @@ def startIngameBoost(_type):
             for account in g_team2:
                 pyautogui.moveTo(account["coords"]["x1"] + c_reconnect_btn[0], account["coords"]["y1"] + c_reconnect_btn[1])
                 pyautogui.click(account["coords"]["x1"] + c_reconnect_btn[0], account["coords"]["y1"] + c_reconnect_btn[1])
-    g_status = 'Finished playing Match'
-    time.sleep(20)
+    utils.logger('finishedPlaying')
+    time.sleep(40)
     return
 
 def startSearch(_type):
-    global g_status
-    g_status = 'Searching for Match'
+    utils.logger('searchingMatch', 'Competitive')
     clickSearchBtn(_type)
 
     team1 = g_team1
@@ -242,23 +247,26 @@ def startSearch(_type):
         team2 = g_wm_team2
         halfFound = 2
         allFound = 4
-        g_status = 'Searching for Wingman Match'
+        utils.logger('searchingMatch', 'Wingman')
     while True:
         count = imagesearch_count('./pics/Accept.png')
         count2 = imagesearch_count('./pics/Accept2.png')
         if count == halfFound or count2 == halfFound or (count + count2) == halfFound:
-            g_status = 'Found match only in one team'
+            utils.logger('foundHalf')
+            pyautogui.moveTo(team2[0]["coords"]["x1"] + c_accept_match[0], team2[0]["coords"]["y1"] + c_accept_match[1])
+            pyautogui.click(team2[0]["coords"]["x1"] + c_accept_match[0], team2[0]["coords"]["y1"] + c_accept_match[1], 2)
+            pyautogui.moveTo(team1[0]["coords"]["x1"] + c_accept_match[0], team1[0]["coords"]["y1"] + c_accept_match[1])
+            pyautogui.click(team1[0]["coords"]["x1"] + c_accept_match[0], team1[0]["coords"]["y1"] + c_accept_match[1], 2)
+
             pyautogui.moveTo(team2[0]["coords"]["x1"] + c_start_search[0], team2[0]["coords"]["y1"] + c_start_search[1])
             pyautogui.click(team2[0]["coords"]["x1"] + c_start_search[0], team2[0]["coords"]["y1"] + c_start_search[1])
 
             pyautogui.moveTo(team1[0]["coords"]["x1"] + c_start_search[0], team1[0]["coords"]["y1"] + c_start_search[1])
-            pyautogui.click(team1[0]["coords"]["x1"] + c_start_search[0], team1[0]["coords"]["y1"] + c_start_search[1])
+            pyautogui.click(team1[0]["coords"]["x1"] + c_start_search[0], team1[0]["coords"]["y1"] + c_start_search[1]) 
             time.sleep(60)
             clickSearchBtn(_type)
         elif count == allFound or count2 == allFound or (count+count2) == allFound:
-            print('Count: {}'.format(count))
-            print('Count2: {}'.format(count2))
-            g_status = 'Both teams found a match'
+            utils.logger('foundAll')
             for i, account in enumerate(team1):
                 pyautogui.moveTo(account["coords"]["x1"] + c_accept_match[0], account["coords"]["y1"] + c_accept_match[1])
                 pyautogui.click(account["coords"]["x1"] + c_accept_match[0], account["coords"]["y1"] + c_accept_match[1], 2)
@@ -306,6 +314,7 @@ def startWM():
     return
 
 def loadAccounts():
+    utils.logger('loadingAccounts')
     accounts = utils.parseAccounts()
     wm_accounts = utils.parseWMAccounts()
     global g_team1
@@ -317,43 +326,28 @@ def loadAccounts():
         g_team2 = utils.calcAccountsCoords(accounts, 'mm')["team2"]
         g_wm_team1 = utils.calcAccountsCoords(wm_accounts, 'wm')["team1"]
         g_wm_team2 = utils.calcAccountsCoords(wm_accounts, 'wm')["team2"]
-        printStatus()
+        if len(g_team1) == 5 or len(g_team2) == 5:
+            utils.logger('loaded', 'Matchmaking')
+        else:
+            utils.logger('notLoaded', 'Matchmaking')
+
+        if len(g_wm_team1) == 2 or len(g_wm_team2) == 2:
+            utils.logger('loaded', 'Wingman')
+        else:
+            utils.logger('notLoaded', 'Wingman')
     return
 
-def printStatus():
-    global g_status
-    os.system('cls')
-    utils.table_keybinds()
-    if len(g_team1) == 5 or len(g_team2) == 5:
-        utils.table_accounts(g_team1, g_team2)
-    else:
-        print('Matchmaking Accounts not loaded')
-
-    if len(g_wm_team1) == 2 or len(g_wm_team2) == 2:
-        utils.table_accounts(g_wm_team1, g_wm_team2)
-    else:
-        print('Wingman accounts not loaded')
-
-    print('Status: ' + g_status)
-    return
-
-def windowEnumerationHandler(hwnd, top_windows):
-    top_windows.append((hwnd, win32gui.GetWindowText(hwnd)))
-
-def unfocus():
-    window_name = 'explorer.exe'
-
-    handle = win32gui.FindWindow(None, window_name)
-    print("Window `{0:s}` handle: 0x{1:016X}".format(window_name, handle))
-    if not handle:
-        print("Invalid window handle")
-        return
-    remote_thread, _ = win32process.GetWindowThreadProcessId(handle)
-    win32process.AttachThreadInput(win32api.GetCurrentThreadId(), remote_thread, True)
-    prev_handle = win32gui.SetFocus(handle)
-
+def runForever(_type):
+    while True:
+        startInvites(_type)
+        if _type == 'wm':  
+            startWM()
+        elif _type == 'mm':
+            startMM()
 
 def main():
+    utils.table_keybinds()
+    utils.logger('botStart')
     loadAccounts()
     keyboard.add_hotkey('f3', startInvites, args=['mm'])
     keyboard.add_hotkey('f4', openAllAccounts)
@@ -363,13 +357,20 @@ def main():
     keyboard.add_hotkey('f8', closeAllAccounts)
     keyboard.add_hotkey('f9', startInvites, args=['wm'])
     keyboard.add_hotkey('f10', openAllAccounts, args=['wm'])
+    keyboard.add_hotkey('f11', runForever, args=["wm"])
+    
     while True:
-        time.sleep(5)
+        time.sleep(0.02)
+        if keyboard.is_pressed('f12'):
+            return
         #utils.mouse(account = g_wm_team2[0], _type='outside')
-        #unfocus()
-        printStatus()
+        #printStatus()
         #print(pyautogui.position())
+    return
 
 if __name__ == '__main__':
+    # x = threading.Thread(target=main)
+    # x.start()
+    # x.join()
     main()
     
