@@ -1,9 +1,10 @@
 from colorclass import Color, Windows
 from terminaltables import SingleTable
+import psutil
 import pyautogui
 pyautogui.PAUSE = 0.3
-import psutil
 Windows.enable(auto_colors=True, reset_atexit=True)
+
 
 positions = [
     {"x": 0, "y": 0},
@@ -18,7 +19,7 @@ positions = [
     {"x": 960, "y": 770},
 ]
 
-def calcAccountsCoords(accounts):
+def calcAccountsCoords(accounts, _type):
     team1 = []
     team2 = []
     for i, account in enumerate(accounts):
@@ -28,28 +29,52 @@ def calcAccountsCoords(accounts):
         y1 = positions[i]["y"]
         x2 = x1 + 320
         y2 = y1 + 230
-        if i <= 4:
-            team1.append({
-                "username": account["username"],
-                "password": account["password"],
-                "coords":{
-                    "x1": x1,
-                    "y1": y1,
-                    "x2": x2,
-                    "y2": y2,
-                }
-            })
-        else:
-            team2.append({
-                "username": account["username"],
-                "password": account["password"],
-                "coords":{
-                    "x1": x1,
-                    "y1": y1,
-                    "x2": x2,
-                    "y2": y2,
-                }
-            })
+        if _type == 'mm':
+            if i <= 4:
+                team1.append({
+                    "username": account["username"],
+                    "password": account["password"],
+                    "coords":{
+                        "x1": x1,
+                        "y1": y1,
+                        "x2": x2,
+                        "y2": y2,
+                    }
+                })
+            else:
+                team2.append({
+                    "username": account["username"],
+                    "password": account["password"],
+                    "coords":{
+                        "x1": x1,
+                        "y1": y1,
+                        "x2": x2,
+                        "y2": y2,
+                    }
+                })
+        elif _type == 'wm':
+            if i <= 1:
+                team1.append({
+                    "username": account["username"],
+                    "password": account["password"],
+                    "coords":{
+                        "x1": x1,
+                        "y1": y1,
+                        "x2": x2,
+                        "y2": y2,
+                    }
+                })
+            else:
+                team2.append({
+                    "username": account["username"],
+                    "password": account["password"],
+                    "coords":{
+                        "x1": x1,
+                        "y1": y1,
+                        "x2": x2,
+                        "y2": y2,
+                    }
+                })
     return {"team1": team1, "team2": team2}
 
 def parseAccounts():
@@ -63,7 +88,6 @@ def parseAccounts():
                         "username": parsedLine[0],
                         "password": parsedLine[1]
                     }
-                    print(newAcc)
                     accounts.append(newAcc)
             if(len(accounts)) < 5:
                 return
@@ -86,6 +110,39 @@ def parseAccounts():
         print(Color('{autored}[ERROR]{/autored} {autogreen}team2.txt not found!{/autogreen}'))
     return accounts
 
+def parseWMAccounts():
+    accounts = []
+    try:
+        with open('wingman1.txt', 'r') as r:
+            for line in r:
+                parsedLine = line.rstrip().split(':')
+                if parsedLine:
+                    newAcc = {
+                        "username": parsedLine[0],
+                        "password": parsedLine[1]
+                    }
+                    accounts.append(newAcc)
+            if(len(accounts)) < 2:
+                return
+    except FileNotFoundError:
+        print(Color('{autored}[ERROR]{/autored} {autogreen}wingman1.txt not found!{/autogreen}'))
+
+    try:
+        with open('wingman2.txt', 'r') as r:
+            for line in r:
+                parsedLine = line.rstrip().split(':')
+                if parsedLine:
+                    newAcc = {
+                        "username": parsedLine[0],
+                        "password": parsedLine[1]
+                    }
+                    accounts.append(newAcc)
+            if(len(accounts)) < 2:
+                return
+    except FileNotFoundError:
+        print(Color('{autored}[ERROR]{/autored} {autogreen}wingman2.txt not found!{/autogreen}'))
+    return accounts
+
 def parseSteamDir():
     line = open('steam_directory.txt', 'r')
     dirr = line.read()
@@ -97,13 +154,14 @@ def parseSteamArgs(username, password, x=0, y=0):
 
 def table_keybinds():
     table_data = [
-        [Color('{autoyellow}F3{/autoyellow}'), 'Invite all accounts'],
+        [Color('{autoyellow}F3{/autoyellow}'), 'Invite MM Accounts'],
         [Color('{autoyellow}F4{/autoyellow}'), 'Open all accounts'],
         [Color('{autoyellow}F5{/autoyellow}'), 'Load or Refresh accounts'],
         [Color('{autogreen}F6{/autogreen}'), 'Start MM Search (15x0)'],
-        [Color('{autogreen}F7{/autogreen}'), 'Start MM Search (15x15)'],
+        [Color('{autogreen}F7{/autogreen}'), 'Wingman (8x8)'],
         [Color('{autogreen}F8{/autogreen}'), 'Close all accounts'],
-        [Color('{autored}F9{/autored}'), 'Panic button #todo'],
+        [Color('{autored}F9{/autored}'), 'Invite Wingman Accounts'],
+        [Color('{autored}F10{/autored}'), 'Open Wingman Accounts'],
         ['\033[31m{}\033[0m'.format(psutil.cpu_percent()), 'CPU Usage'],
         ['\033[31m{}\033[0m'.format(psutil.virtual_memory().percent), 'RAM Usage'],
     ]
@@ -135,9 +193,16 @@ def table_accounts(team1, team2):
     print(t2_table.table)
     return
 
-def mouse(account, target, _type, clicks=1):
-    x1 = account["coords"]["x1"] + target[0]
-    y1 = account["coords"]["y1"] + target[1]
+def mouse(account = '', target = [0,0], _type='', clicks=1):
+    x1 = 0
+    y1 = 0
+    if _type == 'outside':
+        pyautogui.moveTo(account["coords"]["x2"] + 5, account["coords"]["y2"] + 5)
+        pyautogui.click(account["coords"]["x2"] + 5, account["coords"]["y2"] + 5)
+        return
+    if account:
+        x1 = account["coords"]["x1"] + target[0]
+        y1 = account["coords"]["y1"] + target[1]
     if _type == 'click':
         pyautogui.click(x1, y1, clicks)
     elif _type == 'move':
