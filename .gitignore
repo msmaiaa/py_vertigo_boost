@@ -3,6 +3,7 @@ team1.txt
 team2.txt
 wingman.txt
 config.txt
+logs.txt
 __pycache__
 .vscode/*
 .vscode/settings.json

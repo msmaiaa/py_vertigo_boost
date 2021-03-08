@@ -251,29 +251,38 @@ def startSearch(_type):
     while True:
         count = imagesearch_count('./pics/Accept.png')
         count2 = imagesearch_count('./pics/Accept2.png')
-        if count == halfFound or count2 == halfFound or (count + count2) == halfFound:
-            utils.logger('foundHalf')
-            pyautogui.moveTo(team2[0]["coords"]["x1"] + c_accept_match[0], team2[0]["coords"]["y1"] + c_accept_match[1])
-            pyautogui.click(team2[0]["coords"]["x1"] + c_accept_match[0], team2[0]["coords"]["y1"] + c_accept_match[1], 2)
-            pyautogui.moveTo(team1[0]["coords"]["x1"] + c_accept_match[0], team1[0]["coords"]["y1"] + c_accept_match[1])
-            pyautogui.click(team1[0]["coords"]["x1"] + c_accept_match[0], team1[0]["coords"]["y1"] + c_accept_match[1], 2)
+        if (count + count2) == halfFound or ((count + count2) > 1 and (count + count2) < allFound):
+            time.sleep(5)
+            if (count + count2) == allFound:
+                acceptMatchAllAccounts(team1, team2)
+            else:
+                utils.logger('foundHalf')                
+                utils.mouse(team2[0], c_accept_match, 'move')
+                utils.mouse(team2[0], c_accept_match, 'click', 2)
 
-            pyautogui.moveTo(team2[0]["coords"]["x1"] + c_start_search[0], team2[0]["coords"]["y1"] + c_start_search[1])
-            pyautogui.click(team2[0]["coords"]["x1"] + c_start_search[0], team2[0]["coords"]["y1"] + c_start_search[1])
+                utils.mouse(team1[0], c_accept_match, 'move')
+                utils.mouse(team1[0], c_accept_match, 'click', 2)
 
-            pyautogui.moveTo(team1[0]["coords"]["x1"] + c_start_search[0], team1[0]["coords"]["y1"] + c_start_search[1])
-            pyautogui.click(team1[0]["coords"]["x1"] + c_start_search[0], team1[0]["coords"]["y1"] + c_start_search[1]) 
-            time.sleep(60)
-            clickSearchBtn(_type)
+                utils.mouse(team2[0], c_start_search, 'move')
+                utils.mouse(team2[0], c_start_search, 'click')
+
+                utils.mouse(team1[0], c_start_search, 'move')
+                utils.mouse(team1[0], c_start_search, 'click')
+                time.sleep(60)
+                clickSearchBtn(_type)
         elif count == allFound or count2 == allFound or (count+count2) == allFound:
             utils.logger('foundAll')
-            for i, account in enumerate(team1):
-                pyautogui.moveTo(account["coords"]["x1"] + c_accept_match[0], account["coords"]["y1"] + c_accept_match[1])
-                pyautogui.click(account["coords"]["x1"] + c_accept_match[0], account["coords"]["y1"] + c_accept_match[1], 2)
-            for i, account in enumerate(team2):
-                pyautogui.moveTo(account["coords"]["x1"] + c_accept_match[0], account["coords"]["y1"] + c_accept_match[1])
-                pyautogui.click(account["coords"]["x1"] + c_accept_match[0], account["coords"]["y1"] + c_accept_match[1], 2)
+            acceptMatchAllAccounts(team1, team2)
             break
+    return
+
+def acceptMatchAllAccounts(team1, team2):
+    for i, account in enumerate(team1):
+        utils.mouse(account, c_accept_match, 'move')
+        utils.mouse(account, c_accept_match, 'click', 2)
+    for i, account in enumerate(team2):
+        utils.mouse(account, c_accept_match, 'move')
+        utils.mouse(account, c_accept_match, 'click', 2)
     return
 
 def clickSearchBtn(_type=''):
@@ -338,9 +347,12 @@ def loadAccounts():
     return
 
 def runForever(_type):
+    matchCount = 0
     while True:
         startInvites(_type)
         if _type == 'wm':  
+            matchCount += 1
+            utils.logger('matchCount', matchCount)
             startWM()
         elif _type == 'mm':
             startMM()

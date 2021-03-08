@@ -216,6 +216,7 @@ logMsgs = [
     {"name": "openAll", "content": "Opening all accounts", "color": "cyan"},
     {"name": "disconnectedAccounts", "content": "Disconnected accounts from match, rejoining in {} seconds", "color": "green"},
     {"name": "loadingAccounts", "content": "Loading accounts", "color": "cyan"},
+    {"name": "matchCount", "content": "Starting match sequence number {}", "color": "magenta"},
 ]
 
 def buildLogMsg(msgName, date, data='', raw=False):
