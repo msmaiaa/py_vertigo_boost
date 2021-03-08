@@ -144,18 +144,18 @@ def parseSteamArgs(username, password, x=0, y=0):
 
 def table_keybinds():
     table_data = [
-        [Color('{autoyellow}F3{/autoyellow}'), 'Invite MM Accounts'],
-        [Color('{autoyellow}F4{/autoyellow}'), 'Open all accounts'],
+        [Color('{autoyellow}F3{/autoyellow}'), 'Open competitive accounts'],
+        [Color('{autoyellow}F4{/autoyellow}'), 'Open wingman accounts'],
         [Color('{autoyellow}F5{/autoyellow}'), 'Load or Refresh accounts'],
-        [Color('{autogreen}F6{/autogreen}'), 'Start MM Search (15x0)'],
-        [Color('{autogreen}F7{/autogreen}'), 'Wingman (8x8)'],
-        [Color('{autogreen}F8{/autogreen}'), 'Close all accounts'],
-        [Color('{autored}F9{/autored}'), 'Invite Wingman Accounts'],
-        [Color('{autored}F10{/autored}'), 'Open Wingman Accounts'],
-        [Color('{autored}F11{/autored}'), 'Run Wingman 8x8 forever'],
+        [Color('{autogreen}F6{/autogreen}'), 'Start competitive search (15x0)'],
+        [Color('{autogreen}F7{/autogreen}'), 'Start wingman search (8x8)'],
+        [Color('{autogreen}F8{/autogreen}'), 'Invite wingman accounts'],
+        [Color('{autogreen}F9{/autogreen}'), 'Invite competitive accounts'],
+        [Color('{autored}F10{/autored}'), 'Invite and run wingman 8x8 forever'],
+        [Color('{autored}F11{/autored}'), 'Close all accounts'],
         [Color('{autored}F12{/autored}'), 'Stop everything'],
-        ['\033[31m{}\033[0m'.format(psutil.cpu_percent()), 'CPU Usage'],
-        ['\033[31m{}\033[0m'.format(psutil.virtual_memory().percent), 'RAM Usage'],
+        # ['\033[31m{}\033[0m'.format(psutil.cpu_percent()), 'CPU Usage'],
+        # ['\033[31m{}\033[0m'.format(psutil.virtual_memory().percent), 'RAM Usage'],
     ]
     table_instance = SingleTable(table_data)
     table_instance.inner_heading_row_border = False
